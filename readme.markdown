@@ -7,10 +7,14 @@ This mostly works using a list of search strings, though there are a couple of o
 
 It also includes a pretty extensive list of user agents to test against.
 
+If sessions are enabled subsequent requests obtain mobile attributes from the session without parsing the requestor's meta data.
+
+Optionally "mobile" requestors can be redirected to a mobile domain. If they come back to the non-mobile domain the presence of session data keeps them from be automatically redirected back to the mobile domain.
+
 Installation
 ============
 
-Using microdetector is very simple. Simply place the microdetector package into your project's path, and then add:
+Using minidetector is very simple. Simply place the minidetector package into your project's path, and then add:
 
 	minidetector.Middleware
 
@@ -30,7 +34,18 @@ If you only have certain views that need the distinction, you can choose not to 
 "Special" Devices
 =================
 
-minidetector also adds some extra info for popular devices to the request object.
+minidetector also adds some extra info for popular devices to the request object. The defaults for a desktop browser:
+
+	- request.wap = False
+	- request.browser_is_android = False
+	- request.browser_is_ios = False
+	- request.browser_is_ipad = False
+	- request.browser_is_iphone = False
+	- request.browser_is_webkit = False
+	- request.mobile_device = ''
+	- request.touch_device = False
+	- request.wide_device = True
+
 
 Extra Info
 ----------
@@ -73,3 +88,12 @@ You can do the reverse for iphone and android (i.e. having them treat your site 
 
 	IPHONE_IS_MOBILE = False
 	ANDROID_IS_MOBILE = False
+
+Redirect to mobile domain
+------------------------
+
+By default only the request is modified as described above. If `MOBILE_URL` is set to a non empty string and the request.mobile is True the requestor will be redirected to the `MOBILE_URL`.
+
+If sessions are enabled and a requestor returns to the non mobile site they will not be redirected again to the `MOBILE_URL` site.
+
+The intent is to allow automatically sending mobile devices to a mobile website while still allowing the user to choose to use the non-mobile website.
