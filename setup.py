@@ -2,10 +2,10 @@ from distutils.core import setup
 
 setup(
     name='minidetector',
-    version='1.1',
+    version='1.2',
     description='Django middleware and view decorator to detect phones and small-screen devices',
     long_description = open("readme.markdown").read(),
-    author='metamoof, Chris Drackett',
+    author='metamoof, Chris Drackett, Steve Schwarz',
     url = "http://code.google.com/p/minidetector/",
     packages = [
         "minidetector",
@@ -21,7 +21,7 @@ setup(
         "Framework :: Django",
     ],
     data_files = [ ("minidetector", ["minidetector/search_strings.txt"]),
-                   ("minidetector", ["minidetector/tests/mobile_useragents.txt",
-                                     "minidetector/tests/other_useragents.txt"]),
+                   ("minidetector.tests", ["minidetector/tests/mobile_useragents.txt",
+                                           "minidetector/tests/other_useragents.txt"]),
                    ],
 )
