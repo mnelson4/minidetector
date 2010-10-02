@@ -1,5 +1,5 @@
 from distutils.core import setup
- 
+
 setup(
     name='minidetector',
     version='1.1',
@@ -19,5 +19,8 @@ setup(
         "Operating System :: OS Independent",
         "Programming Language :: Python",
         "Framework :: Django",
-    ]
+    ],
+    data_files = [ ("minidetector", ["minidetector/*.txt"]),
+                   ("minidetector", ["minidetector/tests/*.txt"]),
+                   ],
 )
