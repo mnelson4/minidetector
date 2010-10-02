@@ -11,6 +11,10 @@ setup(
         "minidetector",
         "minidetector.tests",
     ],
+    package_data = {"minidetector" : ["minidetector/search_strings.txt"],
+                    "minidetector.tests" : ["minidetector/tests/mobile_useragents.txt",
+                                           "minidetector/tests/other_useragents.txt"],
+                    },
     classifiers = [
         "Development Status :: 3 - Alpha",
         "Environment :: Web Environment",
@@ -19,9 +23,5 @@ setup(
         "Operating System :: OS Independent",
         "Programming Language :: Python",
         "Framework :: Django",
-    ],
-    data_files = [ ("minidetector", ["minidetector/search_strings.txt"]),
-                   ("minidetector.tests", ["minidetector/tests/mobile_useragents.txt",
-                                           "minidetector/tests/other_useragents.txt"]),
-                   ],
+    ]
 )
