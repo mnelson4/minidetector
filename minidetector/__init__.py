@@ -16,7 +16,7 @@ class Middleware(object):
                 Middleware.configure_request(request)
                 Middleware.set_session_from_request(request)
                 request.session['mobile_checked'] = True
-                if minidetector_settings.MOBILE_URL:
+                if request.mobile and minidetector_settings.MOBILE_URL:
                     return HttpResponseRedirect(minidetector_settings.MOBILE_URL)
             else:
                 # Make sure it doesn't try this again
