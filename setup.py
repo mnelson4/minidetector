@@ -20,7 +20,8 @@ setup(
         "Programming Language :: Python",
         "Framework :: Django",
     ],
-    data_files = [ ("minidetector", ["minidetector/*.txt"]),
-                   ("minidetector", ["minidetector/tests/*.txt"]),
+    data_files = [ ("minidetector", ["minidetector/search_strings.txt"]),
+                   ("minidetector", ["minidetector/tests/mobile_useragents.txt",
+                                     "minidetector/tests/other_useragents.txt"]),
                    ],
 )
