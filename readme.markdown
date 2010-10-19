@@ -24,7 +24,7 @@ Then in your view you can check `request.mobile` - if it's `True` then treat it 
 
 If you only have certain views that need the distinction, you can choose not to search every request you receive. All you need to do is wrap the relevant views like this:
 
-	from minidetectordetector import detect_mobile
+	from minidetector import detect_mobile
 
 	@detect_mobile
 	def my_mobile_view(request):
