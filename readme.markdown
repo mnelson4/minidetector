@@ -96,4 +96,7 @@ By default only the request is modified as described above. If `MOBILE_URL` is s
 
 If sessions are enabled and a requestor returns to the non mobile site they will not be redirected again to the `MOBILE_URL` site.
 
-The intent is to allow automatically sending mobile devices to a mobile website while still allowing the user to choose to use the non-mobile website.
+This also means that mobile clients that revisit the non-mobile site on a later visit while their session still exists on the server won't be redirected to the mobile version of the site. This behavior can be changed by setting `SESSION_EXPIRE_AT_BROWSER_CLOSE` to True or by setting `SESSION_COOKIE_AGE` to an appropriately short time.
+
+It is also recommended that mobile and non-mobile versions of the sites share the same `SESSION_COOKIE_DOMAIN` so the sessions are shared between sites:
+	SESSION_COOKIE_DOMAIN = '.example.com'
