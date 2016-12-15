@@ -4,8 +4,12 @@ from minidetector import settings as minidetector_settings
 from minidetector.useragents import search_strings
 
 class Middleware(object):
-    @staticmethod
-    def process_request(request):
+    #following tutorial on django 1.10 middlwares: https://docs.djangoproject.com/en/1.10/topics/http/middleware/3
+    def __init__(self, get_response):
+        self.get_response = get_response
+        # One-time configuration and initialization.
+        
+    def __call__(self, request):        
         """ Adds a "mobile" attribute to the request which is True or False
             depending on whether the request should be considered to come from a
             small-screen device such as a phone or a PDA"""
@@ -13,21 +17,21 @@ class Middleware(object):
             # session enabled
             if not request.session.get('mobile_checked', False):
                 # haven't checked if mobile yet - put in request and session
-                Middleware.configure_request(request)
-                Middleware.set_session_from_request(request)
+                self.configure_request(request)
+                self.set_session_from_request(request)
                 request.session['mobile_checked'] = True
                 if request.mobile and minidetector_settings.MOBILE_URL:
                     return HttpResponseRedirect(minidetector_settings.MOBILE_URL)
             else:
                 # Make sure it doesn't try this again
-                Middleware.set_request_from_session(request)
+                self.set_request_from_session(request)
         else:
             # sessions disabled - always do the work
-            Middleware.configure_request(request)
-        return None
+            self.configure_request(request)
 
-    @staticmethod
-    def set_session_from_request(request):
+        return self.get_response(request)
+
+    def set_session_from_request(self, request):
         request.session['mobile'] = request.mobile
         request.session['wap'] = request.wap
         request.session['browser_is_android'] = request.browser_is_android
@@ -39,8 +43,7 @@ class Middleware(object):
         request.session['touch_device'] = request.touch_device
         request.session['wide_device'] = request.wide_device
 
-    @staticmethod
-    def set_request_from_session(request):
+    def set_request_from_session(self, request):
         request.mobile = request.session['mobile']
         request.wap = request.session['wap']
         request.browser_is_android = request.session['browser_is_android']
@@ -52,8 +55,7 @@ class Middleware(object):
         request.touch_device = request.session['touch_device']
         request.wide_device = request.session['wide_device']
 
-    @staticmethod
-    def configure_request(request):
+    def configure_request(self, request):
         # default all possible attributes for desktop
         request.mobile = False
         request.wap = False
