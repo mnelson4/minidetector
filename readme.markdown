@@ -1,3 +1,6 @@
+##Update note
+Updated to work with Django 1.10. See https://docs.djangoproject.com/en/1.10/topics/http/middleware/. Incompatible with earlier versions of Django
+
 Info
 ====
 
