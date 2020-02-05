@@ -68,14 +68,14 @@ class Middleware(object):
         request.touch_device = False
         request.wide_device = True
 
-        if request.META.has_key("HTTP_X_OPERAMINI_FEATURES"):
+        if "HTTP_X_OPERAMINI_FEATURES" in request.META:
             #Then it's running opera mini. 'Nuff said.
             #Reference from:
             # http://dev.opera.com/articles/view/opera-mini-request-headers/
             request.mobile = True
             return
 
-        if request.META.has_key("HTTP_ACCEPT"):
+        if "HTTP_ACCEPT" in request.META:
             s = request.META["HTTP_ACCEPT"].lower()
             if 'application/vnd.wap.xhtml+xml' in s:
                 # Then it's a wap browser
@@ -83,7 +83,7 @@ class Middleware(object):
                 request.wap = True
                 return
 
-        if request.META.has_key("HTTP_USER_AGENT"):
+        if "HTTP_USER_AGENT" in request.META:
             # This takes the most processing. Surprisingly enough, when I
             # Experimented on my own machine, this was the most efficient
             # algorithm. Certainly more so than regexes.
@@ -140,7 +140,7 @@ def detect_mobile(view):
         to come from a small-screen device such as a phone or a PDA"""
 
     def detected(request, *args, **kwargs):
-        middleware.process_request(request)
+        Middleware(request)
         return view(request, *args, **kwargs)
     detected.__doc__ = "%s\n[Wrapped by detect_mobile which detects if the request is from a phone]" % view.__doc__
     return detected

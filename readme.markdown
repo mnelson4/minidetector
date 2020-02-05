@@ -1,5 +1,6 @@
 Info
 ====
+Version 2.0 adds Python 3 support
 
 This application is a simple middleware and associated decorator that will add a ".mobile" attribute to your request objects, which, if True, means the requester is coming to you from a mobile phone (cellphone), PDA, or other device that should be considered small screened, or have an underpowered browser, such as games consoles.
 

@@ -15,13 +15,13 @@ class TestHTTPHeaders(TestCase):
         request = DummyRequest("Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8b5) Gecko/20051019 Flock/0.4 Firefox/1.0+")
         request.META['HTTP_ACCEPT'] = 'application/vnd.wap.xhtml+xml'
         minidetector.Middleware.process_request(request)
-        self.assert_(request.mobile, "WAP not Detected")
+        self.assertTrue(request.mobile, "WAP not Detected")
         
     def test_opera_mini(self):
         request = DummyRequest("Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8b5) Gecko/20051019 Flock/0.4 Firefox/1.0+")
         request.META['HTTP_X_OPERAMINI_FEATURES'] = 'secure'
         minidetector.Middleware.process_request(request)
-        self.assert_(request.mobile, "Opera Mini not Detected")
+        self.assertTrue(request.mobile, "Opera Mini not Detected")
 
 
 
@@ -32,10 +32,10 @@ def MobileDetectionFactory(uas, expected):
             request = DummyRequest(ua)
             minidetector.Middleware.process_request(request)
             if self.expected:
-                self.assert_(request.mobile,
+                self.assertTrue(request.mobile,
                              "Mobile Not Detected: %s" % ua)
             else:
-                self.assert_(not request.mobile,
+                self.assertTrue(not request.mobile,
                              "Mobile Falsely Detected: %s" % ua)
     def testnum(num):
         def test(self):

@@ -1,5 +1,5 @@
 # encoding: utf8
-from __future__ import with_statement
+
 
 
 import re
@@ -107,7 +107,7 @@ import time
 
 def ttimeit(fun, passes, *args, **kw):
     starttime = time.time()
-    for x in xrange(passes):
+    for x in range(passes):
         fun(*args, **kw)
     endtime = time.time()
     return endtime - starttime
@@ -115,25 +115,25 @@ def ttimeit(fun, passes, *args, **kw):
 #strategies = ["strategy2", "strategy12"]
 
 def run_tests():
-    print "Number of UAs in spread: %s" % len(uas)
-    print "Numbet of passes: %s" % passes
-    print "----------------------------------------------------------------"
+    print("Number of UAs in spread: %s" % len(uas))
+    print("Numbet of passes: %s" % passes)
+    print("----------------------------------------------------------------")
 
     for fname in strategies:
         strategy = globals()[fname]
-        print "Trying Strategy: %s" % strategy.__doc__.splitlines()[0]
+        print("Trying Strategy: %s" % strategy.__doc__.splitlines()[0])
 
 
         best_time = ttimeit(strategy, passes, best_ua)
-        print "    Best Case: %.02f usec/pass" % (multiplier * best_time)
+        print("    Best Case: %.02f usec/pass" % (multiplier * best_time))
         
 
         worst_time = ttimeit(strategy, passes, worst_ua)
-        print "    Worst Case: %.02f usec/pass" % (multiplier * worst_time)
+        print("    Worst Case: %.02f usec/pass" % (multiplier * worst_time))
         
 
         average_time = ttimeit(list, passes, (strategy(ua["User-agent"]) for ua in uas))
-        print "    Normal spread: %.02f usec/pass (%.02f usec/ua)" % (multiplier * average_time, multiplier * average_time/len(uas))
+        print("    Normal spread: %.02f usec/pass (%.02f usec/ua)" % (multiplier * average_time, multiplier * average_time/len(uas)))
 
 
         hits = {"Correct": [], "False Positives": [], "False Negatives": []}
@@ -146,30 +146,30 @@ def run_tests():
             else:
                 hits["False Positives"].append(ua["User-agent"])
 
-        for key, value in hits.items():
-            print "        %s: %s (%.02f%%)" % (key, len(value), float(len(value))*100/len(uas))
+        for key, value in list(hits.items()):
+            print("        %s: %s (%.02f%%)" % (key, len(value), float(len(value))*100/len(uas)))
 
 
-        print "----------------------------------------------------------------"
-    print "False Negatives:"
+        print("----------------------------------------------------------------")
+    print("False Negatives:")
     for ua in hits["False Negatives"]:
-        print ua
-    print
-    print "False Positives:"
+        print(ua)
+    print()
+    print("False Positives:")
     for ua in hits["False Positives"]:
-        print ua
+        print(ua)
 
 
 
 
 def run_tests_timeit():
-    print "Number of UAs in spread: %s" % len(uas)
-    print "Numbet of passes: %s" % passes
-    print "----------------------------------------------------------------"
+    print("Number of UAs in spread: %s" % len(uas))
+    print("Numbet of passes: %s" % passes)
+    print("----------------------------------------------------------------")
     
     for fname in strategies:
         strategy = globals()[fname]
-        print "Trying Strategy: %s" % strategy.__doc__.splitlines()[0]
+        print("Trying Strategy: %s" % strategy.__doc__.splitlines()[0])
         
         
         best_timer = timeit.Timer("%s(best_ua)" % fname, "from %s import %s, best_ua" % (__name__, fname))
@@ -177,15 +177,15 @@ def run_tests_timeit():
         average_timer = timeit.Timer("for ua in uas: %s(ua['User-agent'])" % fname, "from %s import %s, uas" % (__name__, fname))
         
         best_time = best_timer.timeit(number=passes)
-        print "    Best Case: %.02f usec/pass" % (multiplier * best_time)
+        print("    Best Case: %.02f usec/pass" % (multiplier * best_time))
         clear_cache()
 
         worst_time = worst_timer.timeit(number=passes)
-        print "    Worst Case: %.02f usec/pass" % (multiplier * worst_time)
+        print("    Worst Case: %.02f usec/pass" % (multiplier * worst_time))
         clear_cache()
     
         average_time = average_timer.timeit(number=passes)
-        print "    Normal spread: %.02f usec/pass (%.02f usec/ua)" % (multiplier * average_time, multiplier * average_time/len(uas))
+        print("    Normal spread: %.02f usec/pass (%.02f usec/ua)" % (multiplier * average_time, multiplier * average_time/len(uas)))
         
     
         hits = {"Correct": 0, "False Positives": 0, "False Negatives": 0}
@@ -198,11 +198,11 @@ def run_tests_timeit():
             else:
                 hits["False Positives"] += 1
 
-        for key, value in hits.items():
-            print "        %s: %s (%.02f%%)" % (key, value, float(value)*100/len(uas))
+        for key, value in list(hits.items()):
+            print("        %s: %s (%.02f%%)" % (key, value, float(value)*100/len(uas)))
             
         clear_cache()
-        print "----------------------------------------------------------------"
+        print("----------------------------------------------------------------")
         
 if __name__ == "__main__":
     run_tests()
